@@ -34,6 +34,13 @@ bool Grid::alive_cell_locate(int x, int y) {
 }
 
 void Grid::execute() {
+	
+	for (int x = 0; x < 40; x++) {
+		for (int y = 0; y < 40; y++) {
+			cell_die[x][y] = false;
+			cell_alive[x][y] = false;
+		}
+	}
 	for (int x = 0; x < w; x++) {
 		for (int y = 0; y < h; y++) {
 			if (x >= 0 && x < w && y >= 0 && y < h) {
@@ -48,35 +55,60 @@ void Grid::execute() {
 				int count = 0;
 				
 				if (nber_left) {
-					if (cell[left][y].Alive()) ++count;
-					if (cell[left][top].Alive()) ++count;
-					if (nber_bot && cell[left][bot].Alive()) ++count;
+					if (cell[left][y].Alive()) 
+						++count;
+					if (cell[left][top].Alive()) 
+						++count;
+					if (nber_bot && cell[left][bot].Alive()) 
+						++count;
 				}
 				if (nber_right) {
-					if (cell[right][y].Alive()) ++count;
-					if (nber_top && cell[right][top].Alive()) ++count;
-					if (nber_bot && cell[right][bot].Alive()) ++count;
+					if (cell[right][y].Alive()) 
+						++count;
+					if (nber_top && cell[right][top].Alive()) 
+						++count;
+					if (nber_bot && cell[right][bot].Alive()) 
+						++count;
 
 				}
-				if (nber_top && cell[x][top].Alive()) ++count;
+				if (nber_top && cell[x][top].Alive()) 
+					++count;
 
-				if (nber_bot && cell[x][bot].Alive()) ++count;
+				if (nber_bot && cell[x][bot].Alive()) 
+					++count;
 
-				if (count < 2) {
-					cell[x][y].modify_cell(false);
+
+				//check cell die or alive based on rules
+				if (cell[x][y].Alive()) {
+					if (count != 2 && count !=3) {
+						cell_die[x][y] = true;
+					}
+
 				}
-				else if (count == 2) {
-					// do nothing
+					
+				else
+				 {
+					if (count == 3 ) 
+						cell_alive[x][y] = true;	
 				}
-				else if (count == 3) {
-					cell[x][y].modify_cell(true);
-				}
-				else if (count > 3) {
-					cell[x][y].modify_cell(true);
-				}
-			
+		
+			}
+
+
+		}
+	}
+
+	for (int x = 0; x < w; x++) {
+		for (int y = 0; y < h; y++) {
+
+			if (cell_die[x][y]) {
+				cell[x][y].modify_cell(false);
+			}
+			if (cell_alive[x][y]) {
+				cell[x][y].modify_cell(true);
 			}
 		}
 	}
+
 	
 }
