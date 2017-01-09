@@ -28,7 +28,7 @@ private:
 	bool cell_die[40][40];
 	bool cell_alive[40][40];
 	Cell cell[40][40];
-	bool nber_left, nber_right, nber_top, nber_bot;
+
 public:
 	
 	Grid(int w, int h);
