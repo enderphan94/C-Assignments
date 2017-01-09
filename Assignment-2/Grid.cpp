@@ -34,6 +34,7 @@ bool Grid::alive_cell_locate(int x, int y) {
 }
 
 void Grid::execute() {
+	//bool nber_left, nber_right, nber_top, nber_bot;
 	
 	for (int x = 0; x < 40; x++) {
 		for (int y = 0; y < 40; y++) {
@@ -44,57 +45,55 @@ void Grid::execute() {
 	for (int x = 0; x < w; x++) {
 		for (int y = 0; y < h; y++) {
 			if (x >= 0 && x < w && y >= 0 && y < h) {
-				int left = x - 1;
-
-				int right = x + 1;
-
-				int top = y - 1;
-
-				int bot = y + 1;
-
 				int count = 0;
-				
+				bool nber_left = x - 1 >= 0 && x - 1 < w;
+				bool nber_right = x + 1 >= 0 && x + 1 < w;
+				bool nber_top = y + 1 >= 0 && y + 1 < h;
+				bool nber_bot = y - 1 >= 0 && y - 1 < h;
+
 				if (nber_left) {
-					if (cell[left][y].Alive()) 
+					if (cell[x - 1][y].Alive())
 						++count;
-					if (cell[left][top].Alive()) 
+					if (cell[x - 1][y + 1].Alive())
 						++count;
-					if (nber_bot && cell[left][bot].Alive()) 
+					if (nber_bot && cell[x - 1][y - 1].Alive())
 						++count;
 				}
-				if (nber_right) {
-					if (cell[right][y].Alive()) 
+				 if (nber_right) {
+					if (cell[x + 1][y].Alive())
 						++count;
-					if (nber_top && cell[right][top].Alive()) 
+				
+					if (nber_top && cell[x + 1][y + 1].Alive())
 						++count;
-					if (nber_bot && cell[right][bot].Alive()) 
+					
+					if (nber_bot && cell[x + 1][y - 1].Alive())
 						++count;
 
 				}
-				if (nber_top && cell[x][top].Alive()) 
+				if (nber_top && cell[x][y + 1].Alive())
 					++count;
 
-				if (nber_bot && cell[x][bot].Alive()) 
+				if (nber_bot && cell[x][y - 1].Alive())
 					++count;
 
 
 				//check cell die or alive based on rules
 				if (cell[x][y].Alive()) {
-					if (count != 2 && count !=3) {
+					if (count != 2 && count != 3) {
 						cell_die[x][y] = true;
 					}
 
 				}
-					
+
 				else
-				 {
-					if (count == 3 ) 
-						cell_alive[x][y] = true;	
+				{
+					if (count == 3)
+						cell_alive[x][y] = true;
 				}
-		
+
+
 			}
-
-
+			
 		}
 	}
 
