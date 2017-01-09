@@ -48,24 +48,23 @@ int main()
 			//Mouse event
 			if (event.type == Event::MouseButtonPressed) {
 				if (event.mouseButton.button == Mouse::Left && mode==edit) {
-					int* x = new int;
-					int* y = new int;
+				
 					int z = width / 40;
-					 *x = Mouse::getPosition(window).x / z;
-					 *y = Mouse::getPosition(window).y / z;			
-					grid.cell_locate(!grid.alive_cell_locate(*x, *y), *x, *y);
+					 int x = Mouse::getPosition(window).x / z;
+					 int y = Mouse::getPosition(window).y / z;		
+					grid.cell_locate(!grid.alive_cell_locate(x, y), x, y);
 			
-					delete x;
-					delete y;
 				}
 			}
 		}
-		grid.draw(window);
+		
 		if (mode == play) {
 			//do movement here
 			grid.execute();
 
 		}
+
+		grid.draw(window);
 		window.display();
 	}
 
